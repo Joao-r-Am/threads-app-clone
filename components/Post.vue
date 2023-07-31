@@ -1,0 +1,71 @@
+<template>
+  <div class="z-50 bottom-0 h-full w-full">
+    <div class="py-2 w-full">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center text-white">
+          <img :src="post.image" alt="postagem" class="rounded-full h-[35px]" />
+          <div class="ml-2 font-semibold text-[18px]">{{ post.name }}</div>
+        </div>
+        <div @click="isMenu = !isMenu" class="relative">
+          <button
+            :disabled="isDeleting"
+            class="flex items-center text-white p-1 h-[24px] w-[24px] hover:bg-gray-800 rounded-full cursor-pointer"
+            :class="isMenu ? 'bg-gray-800' : ''"
+          >
+            <i
+              v-if="!isDeleting"
+              class="mb-1 material-icons"
+              style="color: #ffffff; size: 18"
+              >more_vert</i
+            >
+            <i
+              v-else
+              class="mb-1 material-icons"
+              style="color: #ffffff; size: 18"
+              >refresh</i
+            >
+            <div
+              v-if="isMenu"
+              class="absolute border border-gray-600 right-0 z-20 mt-1 rounded"
+            >
+              <button
+                class="flex items-center rounded gap-2 text-red-500 justify-between bg-black w-full pl-4 pr-3 py-1 hover:bg-gray-900"
+              >
+                <div>Delete</div>
+                <i class="mb-1 material-icons" style="color: #ff0000; size: 18"
+                  >delete_outline</i
+                >
+              </button>
+            </div>
+          </button>
+        </div>
+      </div>
+      <div class="relative flex items-center w-full">
+        <div class="w-[42px] mx-auto">
+          <div class="absolute ml-4 mt-1 top-0 w-[1px] bg-gray-700 h-full" />
+        </div>
+        <div
+          class="bg-black rounded-lg w-[calc(100%-50px)] text-sm w-full font-light"
+        >
+          <div class="py-2 text-gray-400">{{ post.text }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+<script setup>
+import { useUserStore } from '~/store/user'
+import { ref } from 'vue'
+const userStore = useUserStore()
+
+// const runtimeConfig = useRuntimeConfig()
+let isMenu = ref(false)
+let isLike = ref(false)
+let isDeleting = ref(false)
+
+const emit = defineEmits(['isDeleted'])
+const props = defineProps({ post: Object })
+
+// const client = useSupabase()
+// const user = useSupabaseUser()
+</script>

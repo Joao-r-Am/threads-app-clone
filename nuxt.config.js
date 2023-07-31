@@ -11,7 +11,13 @@ export default {
       { hid: 'description', name: 'description', content: '' },
       { name: 'format-detection', content: 'telephone=no' },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    link: [
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      {
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/icon?family=Material+Icons',
+      },
+    ],
   },
   pages: true,
 
@@ -30,13 +36,15 @@ export default {
     '@nuxt/typescript-build',
     // https://go.nuxtjs.dev/tailwindcss
     '@nuxtjs/tailwindcss',
+    '@nuxtjs/composition-api/module',
+    '@pinia/nuxt',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    'nuxt-icon',
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    'nuxt-icon',
     '@nuxtjs/tailwindcss',
     // '@nuxtjs/supabase',
     '@pinia/nuxt',
@@ -44,8 +52,8 @@ export default {
   ],
   runtimeConfig: {
     public: {
-      bucketUrl: process.env.BUCKET_URL
-    }
+      bucketUrl: process.env.BUCKET_URL,
+    },
   },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
