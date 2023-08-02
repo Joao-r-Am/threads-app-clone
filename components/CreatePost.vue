@@ -1,105 +1,100 @@
 <template>
-  <div class="z-50 bottom-0 h-full w-full">
-    <div class="py-2 w-full">
-      <div class="flex items-center justify-between">
-        <div class="flex items-center text-white">
-          <img :src="post.image" alt="postagem" class="rounded-full h-[35px]" />
-          <div class="ml-2 font-semibold text-[18px]">{{ post.name }}</div>
-        </div>
-        <div @click="isMenu = !isMenu" class="relative">
-          <button
-            :disabled="isDeleting"
-            class="flex items-center text-white p-1 h-[24px] w-[24px] hover:bg-gray-800 rounded-full cursor-pointer"
-            :class="isMenu ? 'bg-gray-800' : ''"
-          >
-            <i
-              v-if="!isDeleting"
-              class="mb-1 material-icons"
-              style="color: #ffffff; size: 18"
-              >more_vert</i
-            >
-            <i
-              v-else
-              class="mb-1 material-icons"
-              style="color: #ffffff; size: 18"
-              >refresh</i
-            >
-            <div
-              v-if="isMenu"
-              class="absolute border border-gray-600 right-0 z-20 mt-1 rounded"
-            >
-              <button
-                class="flex items-center rounded gap-2 text-red-500 justify-between bg-black w-full pl-4 pr-3 py-1 hover:bg-gray-900"
-              >
-                <div>Delete</div>
-                <i class="mb-1 material-icons" style="color: #ff0000; size: 18"
-                  >delete_outline</i
-                >
-              </button>
-            </div>
-          </button>
-        </div>
-      </div>
-      <div class="relative flex items-center w-full">
-        <div class="w-[42px] mx-auto">
-          <div class="absolute ml-4 m't-1 top-0 w-[1px] bg-gray-700 h-full" />
-        </div>
-        <div
-          class="bg-black rounded-lg w-[calc(100%-50px)] text-sm w-full font-light"
+  <div
+    id="CreatePost"
+    class="fixed z-50 bottom-0 h-full w-full overdlow-hidden"
+  >
+    <div class="bg-black h-full w-full text-white overflow-auto">
+      <div
+        class="flex items-center justify-start py-4 max-w-[500px] mx-auto border-b border-b-gray-700"
+      >
+        <button
+          @click="
+            userStore.isMenuOverlay = false
+            clearData()
+          "
+          class="rounded-full px-2"
         >
-          <div class="py-2 text-gray-400">{{ post.text }}</div>
-          <img
-            v-if="post && post.picture"
-            class="mx-auto w-full mt-2 pr-2 rounded"
-            :src="post.picture"
-          />
-          <div class="absolute mt-2 w-full ml-2">
-            <button :disabled="isLike" class="flex items-center gap-1">
-              <i
-                class="material-icons p-1 text-white hover:bg-gray-800 rounded-full cursor-pointer"
-                style="size: 28"
-                >favorite_border</i
-              >
-            </button>
-            <div class="relative text-sm text-gray-500">
-              <div>
-                <span>3</span>
-                likes
+          <i class="material-icons">close</i>
+        </button>
+        <div class="text-[16px] font-semibold">New Threads</div>
+      </div>
+      <div
+        id="Post"
+        class="z-40 bottom-0 max-h-[100vh-200px] w-full px-3 max-w-[500px] mx-auto"
+      >
+        <div class="py-2 w-full">
+          <div class="flex items-center">
+            <div class="flex items-center text-white">
+              <img
+                class="rounded-full h-[35px]"
+                src="https://picsum.photos/id/441/50"
+                alt=""
+              />
+              <div class="ml-2 font-semibold text-[18px]">João R. dev</div>
+            </div>
+          </div>
+          <div class="relative flex items-center w-full">
+            <div class="w-[42px] mx-auto">
+              <div
+                class="absolute ml-4 mt-1 top-0 w-[1px] bg-gray-700 h-full"
+              ></div>
+            </div>
+            <div
+              class="bg-black rounded-lg w-[calc(100%-50px)] text w-full font-light"
+            >
+              <div class="pt-2 text-gray-300 bg-black w-full">
+                <textarea
+                  v-model="text"
+                  style="resize: none"
+                  placeholder="Start a thread..."
+                  id="textarea"
+                  @input="adjustTextAreaHeight()"
+                  class="w-full bg-black outline-none"
+                ></textarea>
+              </div>
+              <div class="w-full">
+                <div class="flex flex-col gap-2 py-1">
+                  <div v-if="fileDisplay">
+                    <img
+                      :src="fileDisplay"
+                      class="mx-auto w-full mt-2 mr-2 rounded-lg"
+                      alt=""
+                    />
+                  </div>
+                  <label for="fileInput">
+                    <i class="material-icons"> attach_file </i>
+                    <input
+                      type="file"
+                      ref="file"
+                      id="fileInput"
+                      @input="onChange"
+                      hidden
+                      accept=".jps,.jpeg,.png"
+                    />
+                  </label>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="relative inline-block text-gray-500 pt-1 pb-1.5">
-      <div class="flex items-center">
-        <div class="flex items-center flex-wrap text-white gap-1 w-[42px]">
-          <div class="flex gap-0.5">
-            <img
-              class="rounded-full h-[14px] mt-2"
-              src="https://picsum.photos/id/237/50"
-              alt="coments"
-            />
-            <img
-              class="rounded-full h-[17px]"
-              src="https://picsum.photos/id/551/50"
-              alt="coments"
-            />
-          </div>
-          <div class="flex items-center">
-            <img
-              class="rounded-full h-[11px] ml-4"
-              src="https://picsum.photos/id/27/50"
-            />
-          </div>
+      <button
+        v-if="text"
+        :disabled="isLoading"
+        class="fixed bottom-0 font-bold text-lg w-full p-2 bg-black inline-block float-right p-4 border-t border-t-gray-700"
+        :class="isLoading ? 'text-gray-600' : 'text-blue-600'"
+      >
+        <div v-if="!isLoading">Post</div>
+        <div v-else class="flex items-center gap-2 justify-center">
+          <i class="material-icon" style="size: 25">pending</i>
+          Por favor, aguarde...
         </div>
-      </div>
+      </button>
     </div>
-
-    <div class="h-[1px] bg-gray-800 w-full mt-3" />
   </div>
 </template>
 <script setup>
+import { v4 as uuidv4 } from 'uuid'
 import { useUserStore } from '~/store/user'
 import { ref } from 'vue'
 const userStore = useUserStore()
@@ -109,9 +104,31 @@ let isMenu = ref(false)
 let isLike = ref(false)
 let isDeleting = ref(false)
 
-const emit = defineEmits(['isDeleted'])
-const props = defineProps({ post: Object })
-
 // const client = useSupabase()
 // const user = useSupabaseUser()
+
+let text = ref(null)
+let isLoading = ref(false)
+
+const adjustTextAreaHeight = () => {
+  let textarea = document.getElementById('textarea')
+  textarea.style.height = 'auto'
+  textarea.style.height = textarea.scrollHeight + 'px'
+}
+
+let file = ref(null)
+let fileDisplay = ref(null)
+let fileData = ref(null)
+
+const clearData = () => {
+  text.value = null
+  file.value = null
+  fileDisplay.value = null
+  fileData.value = null
+}
+
+const onChange = () => {
+  fileDisplay.value = URL.createObjectURL(file.value.files[0])
+  fileData.value = file.value.files[0]
+}
 </script>
