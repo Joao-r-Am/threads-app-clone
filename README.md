@@ -19,4 +19,4 @@ $ npm run dev
 
 # É possível interagir com os botões para login e logout
 
-![Threads-clone!](/public/threads-clone.git "threads")
+![Threads-clone!](/public/threads-clone.gif "threads")
