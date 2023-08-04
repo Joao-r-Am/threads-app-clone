@@ -104,14 +104,10 @@ import { useUserStore } from '~/store/user'
 import { ref } from 'vue'
 const userStore = useUserStore()
 
-// const runtimeConfig = useRuntimeConfig()
 let isMenu = ref(false)
 let isLike = ref(false)
 let isDeleting = ref(false)
 
 const emit = defineEmits(['isDeleted'])
 const props = defineProps({ post: Object })
-
-// const client = useSupabase()
-// const user = useSupabaseUser()
 </script>

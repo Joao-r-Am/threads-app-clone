@@ -26,8 +26,11 @@
 </template>
 <script setup>
 import { useUserStore } from '~/store/user'
-import {} from ''
+import { useRouter } from '@nuxtjs/composition-api'
 const userStore = useUserStore()
+const router = useRouter()
 
-const logout = () => {}
+const logout = () => {
+  return router.push('/auth')
+}
 </script>

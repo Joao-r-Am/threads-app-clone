@@ -44,11 +44,9 @@ export default {
   modules: [
     'nuxt-icon',
     // https://go.nuxtjs.dev/axios
-    '@nuxtjs/axios',
+    // '@nuxtjs/axios',
     '@nuxtjs/tailwindcss',
-    // '@nuxtjs/supabase',
     '@pinia/nuxt',
-    // "@vite-pwa/nuxt",
   ],
   runtimeConfig: {
     public: {

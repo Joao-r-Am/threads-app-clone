@@ -94,19 +94,9 @@
   </div>
 </template>
 <script setup>
-import { v4 as uuidv4 } from 'uuid'
 import { useUserStore } from '~/store/user'
 import { ref } from 'vue'
 const userStore = useUserStore()
-
-// const runtimeConfig = useRuntimeConfig()
-let isMenu = ref(false)
-let isLike = ref(false)
-let isDeleting = ref(false)
-
-// const client = useSupabase()
-// const user = useSupabaseUser()
-
 let text = ref(null)
 let isLoading = ref(false)
 
