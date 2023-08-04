@@ -31,6 +31,7 @@ const userStore = useUserStore()
 const router = useRouter()
 
 const logout = () => {
+  userStore.isLogoutOverlay = false
   return router.push('/auth')
 }
 </script>
